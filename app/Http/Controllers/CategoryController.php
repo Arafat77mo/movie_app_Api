@@ -20,8 +20,10 @@ class CategoryController extends Controller
     public function index()
     {
 
-$category=Category::all();
-return response()->json($category);
+$category=Category::all(['id','name']);
+$msg='all cat';
+return $this->apiresponse($category,$msg,200);
+
 
 
 

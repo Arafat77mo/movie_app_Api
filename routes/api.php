@@ -37,5 +37,5 @@ use App\Http\Controllers\CategoryController;
     Route::post('/store_cat', [CategoryController::class, 'store']);
     Route::post('/update_cat/{id}', [CategoryController::class, 'update']);
     Route::post('/destroy_cat/{id}', [CategoryController::class, 'destroy']);
-});    
-
+   
+}); 

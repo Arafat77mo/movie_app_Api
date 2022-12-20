@@ -23,27 +23,26 @@ class MovieController extends Controller
     public function index(Request $request)
     {
 
-if($request->search){
+if($request->q){
 
-            $result  = Movie::where("title" , "like","%$request->search%")
-            ->orWhere("rate" , "like" ,"%$request->search%")->join('categories','movies.category_id','=','categories.id')
-            ->orWhere("categories.name" , "like" ,"%$request->search%")
+            $result  = Movie::where("title" , "like","%$request->q%")
+            ->orWhere("rate" , "like" ,"%$request->q%")->join('categories','movies.category_id','=','categories.id')
+            ->orWhere("categories.name" , "like" ,"%$request->q%")
             ->orderBy("id","DESC")
             ->get();
             if(count($result)){
-                 return response()->json($result);
+                $msg='all movies';
+
+                return $this->apiresponse($result,$msg,200); 
             }else{
                 return response()->json(["result" => "this movie not Found"],404);
             }
-      }else{
-
-        $result= DB::table('movies')->join('categories','movies.category_id','=','categories.id')
+      }else{ $result= DB::table('movies')->join('categories','movies.category_id','=','categories.id')
         ->select('movies.id','movies.title','movies.description','movies.rate','movies.image','categories.name')
-        ->orderby('created_at','desc')->get();
-        return response()->json($result);
-
+       ->get();
+       $msg='all movies';
+        return $this->apiresponse($result,$msg,200);
       }
-
     }
 
     /**
@@ -67,11 +66,12 @@ if($request->search){
 
         if($request->hasfile("image")){
            
-                $filename= uploadImage("movie",$request->image);
-            
+            $image= $request->image;
+         $imageName=time().'.'.$image->getClientOriginalExtension();
+         $request->image->move('public', $imageName);
         }
         $requestData = $request->all();
-        $requestData['image'] =$filename;
+        $requestData['image'] =$imageName;
         $movie = Movie::create($requestData);   
         $msg=['this  movie  saved '];
         return $this->apiresponse($movie,$msg,200); 
@@ -112,9 +112,10 @@ if($request->search){
 
         if($request['image']){ 
             $data=$request->all();
-                             $filename = '';
-               $filename = uploadImage("movie",$request->image);
-               $data['image'] = $filename;
+            $image= $request->image;
+         $imageName=time().'.'.$image->getClientOriginalExtension();
+         $request->image->move('public', $imageName);
+               $data['image'] =$imageName;
        
                $movie->update($data);
        

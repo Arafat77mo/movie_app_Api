@@ -41,6 +41,7 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
+        
         'movie' => [
             'driver' => 'local',
             'root' => public_path() . '/assets/movie/',

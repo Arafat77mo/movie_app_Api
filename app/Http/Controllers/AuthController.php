@@ -76,9 +76,10 @@ class AuthController extends Controller
                 return $this->returnError('E001', 'بيانات الدخول غير صحيحة');
 
             $user = Auth::guard('api')->user();
-            $user -> access_token = $token;
+            $user -> token = $token;
             //return token
-            return $this->returnData('user', $user);  //return json response
+            $msg=' you are login';
+            return $this->returnData('user', $user,$msg,200);  //return json response
 
         } catch (\Exception $ex) {
             return $this->returnError($ex->getCode(), $ex->getMessage());
