@@ -61,9 +61,12 @@ return $this->apiresponse($category,$msg,200);
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show($id)
     {
-        //
+        $Category= Category::find($id);
+        $msg=' show category';
+        return $this->apiresponse($Category,$msg,200); 
+
     }
 
     /**
@@ -90,14 +93,14 @@ return $this->apiresponse($category,$msg,200);
 
            
          $cat= Category::where('id', $id)->update(array(
-          'name' => $request['title'],
+          'name' => $request['name'],
           
         ));
-         $Category= Category::find($id);
+        
 
       
       $msg=' updated sucssfully';
-      return $this->apiresponse($Category,$msg,200);   
+      return $this->apiresponse($cat,$msg,200);   
       }
 
     /**

@@ -36,6 +36,7 @@ use App\Http\Controllers\CategoryController;
     Route::get('/category', [CategoryController::class, 'index']);
     Route::post('/store_cat', [CategoryController::class, 'store']);
     Route::post('/update_cat/{id}', [CategoryController::class, 'update']);
+    Route::get('/show_cat/{id}', [CategoryController::class, 'show']);
     Route::post('/destroy_cat/{id}', [CategoryController::class, 'destroy']);
    
 }); 
